@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="330.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k.lei.salary.view.RootLayoutController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="檔案">
+            <items>
+              <MenuItem mnemonicParsing="false" text="新增" />
+                  <MenuItem mnemonicParsing="false" text="開啟..." />
+                  <MenuItem mnemonicParsing="false" text="儲存" />
+                  <MenuItem mnemonicParsing="false" text="另存新檔" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="計算">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleInidividualCalculateDialog" text="單項計算" />
+                  <MenuItem mnemonicParsing="false" text="總項計算" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="圖表">
+              <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleWorkTimeDialog" text="時間表" />
+                <MenuItem mnemonicParsing="false" text="各項薪資比較表" />
+                  <MenuItem mnemonicParsing="false" text="每月薪資比較表" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="風格">
+              <items>
+                <MenuItem mnemonicParsing="false" text="預設" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="關於...">
+            <items>
+              <MenuItem mnemonicParsing="false" text="作者" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
