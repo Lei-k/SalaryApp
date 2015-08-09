@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="k.lei.salary.view.AboutAuthorController">
+   <children>
+      <TextArea editable="false" layoutX="77.0" layoutY="50.0" prefHeight="300.0" prefWidth="400.0" text=" 作者：Lei-k&#10; 版本：Version 1&#10; 此應用程式結構採用自網路上，&#10; Markery大的一篇javafx教學文，&#10; 再加入個人的巧思所完成的多功能薪水計算機，&#10; 希望身為使用者的你會感到喜歡。" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

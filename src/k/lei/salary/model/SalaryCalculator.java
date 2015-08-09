@@ -23,7 +23,7 @@ public class SalaryCalculator {
 		return salary;
 	}
 	
-	public double calculateOneTime(WorkTime workTime){
+	public static double calculateOneTime(WorkTime workTime){
 		double startHour = workTime.getStartHour();
 		double startMinute = workTime.getStartMinute();
 		double endHour = workTime.getEndHour();

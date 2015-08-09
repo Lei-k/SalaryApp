@@ -1,17 +1,28 @@
 package k.lei.salary;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.prefs.Preferences;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import k.lei.salary.model.Work;
+import k.lei.salary.model.WorkListWrapper;
+import k.lei.salary.view.AboutAuthorController;
+import k.lei.salary.view.AllCalculateDialogController;
 import k.lei.salary.view.IndividualCalculateDialogController;
 import k.lei.salary.view.RootLayoutController;
 import k.lei.salary.view.WorkEditDialogController;
@@ -62,6 +73,11 @@ public class MainApp extends Application{
 			primaryStage.show();
 		}catch(IOException e){
 			e.printStackTrace();
+		}
+		
+		File file = getWorkFilePath();
+		if(file != null){
+			loadWorkDataFromFile(file);
 		}
 	}
 	
@@ -175,6 +191,160 @@ public class MainApp extends Application{
 			dialogStage.showAndWait();
 		}catch(IOException e){
 			e.printStackTrace();
+		}
+	}
+	
+	public void showAllCalculateDialog(){
+		try{
+			//Load the fxml file and create a new stage for pupop dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/AllCalculateDialog.fxml"));
+			AnchorPane page = (AnchorPane)loader.load();
+			
+			//Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("單項薪資表");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			
+			//Set the work time into the controller.
+			AllCalculateDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setWorkData(workData);
+			controller.showSalaryTable();
+			
+			//Show the dialog and wait until user close it
+			dialogStage.showAndWait();
+			workData.remove(workData.size()-1);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void showAboutAuthor(){
+		try{
+			//Load the fxml file and create a new stage for pupop dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/AboutAuthor.fxml"));
+			AnchorPane page = (AnchorPane)loader.load();
+			
+			//Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("作者");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			
+			//Set the work time into the controller.
+			AboutAuthorController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			
+			//Show the dialog and wait until user close it
+			dialogStage.showAndWait();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Returns the work file preference, i.e. the file that was last opened.
+	 * The preference is read from the OS specific registry. If no such
+	 * preference can be found, null is returned.
+	 * 
+	 * @return
+	 */
+	public File getWorkFilePath(){
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		String filePath = prefs.get("filePath",  null);
+		if(filePath != null){
+			return new File(filePath);
+		}else{
+			return null;
+		}
+	}
+	 
+	 /**
+	  * Sets the file path of the currently loaded file. Teh path is persised in
+	  * the OS specific registry.
+	  * 
+	  * @param file the file or null to remove the path
+	  */
+	public void setWorkFilePath(File file){
+		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+		if(file != null){
+			prefs.put("filePath", file.getPath());
+			
+			//Update the stage title.
+			primaryStage.setTitle("AddressApp - " + file.getName());
+		}else{
+			prefs.remove("filePath");
+			
+			//Update the stage title.
+			primaryStage.setTitle("AddressApp");
+		}
+	}
+	
+	/**
+	 * Loads work data from the specified file. The current work data will
+	 * be replaced.
+	 * 
+	 * @param file
+	 */
+	public void loadWorkDataFromFile(File file){
+		try {
+			JAXBContext context = JAXBContext.newInstance(WorkListWrapper.class);
+			Unmarshaller um = context.createUnmarshaller();
+			
+			//Reading XML from the file and unmarshalling.
+			WorkListWrapper wrapper = (WorkListWrapper)um.unmarshal(file);
+			
+			workData.clear();
+			workData.addAll(wrapper.getWorks());
+			
+			setWorkFilePath(file);
+		} catch (Exception e) {
+			//catches any exception.
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(primaryStage);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not load data");
+			alert.setContentText("Could not load data from file:\n" + file.getPath());
+			
+			alert.showAndWait();
+		}
+	}
+	
+	/**
+	 * Saves the current work data to the specified file.
+	 * 
+	 * @param file
+	 */
+	public void saveWorkDataToFile(File file){
+		try{
+			JAXBContext context = JAXBContext.newInstance(WorkListWrapper.class);
+			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			//Wrapping our work data.
+			WorkListWrapper wrapper = new WorkListWrapper();
+			wrapper.setWorks(workData);
+			
+			//Marshalling and saving XML to the file.
+			m.marshal(wrapper, file);
+			
+			//Save the file path to the registry.
+			setWorkFilePath(file);
+		}catch(Exception e){
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.initOwner(primaryStage);
+			alert.setTitle("Error");
+			alert.setHeaderText("Could not save data");
+			alert.setContentText("Could not save data to file:\n" + file.getPath());
+			
+			alert.showAndWait();
 		}
 	}
 	

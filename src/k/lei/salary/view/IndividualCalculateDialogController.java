@@ -18,12 +18,14 @@ public class IndividualCalculateDialogController {
 	
 	private Stage dialogStage;
 	
+	
 	/**
 	 * Initializes the controller class, the method is automatical called
 	 * after fxml file is loaded.
 	 */
 	@FXML
 	private void initialize(){
+		salaryLabel.setText("0");
 	}
 	
 	public void setDialogStage(Stage dialogStage){

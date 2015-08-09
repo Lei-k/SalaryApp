@@ -7,7 +7,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import k.lei.salary.model.SalaryCalculator;
 import k.lei.salary.model.Work;
 import k.lei.salary.model.WorkTime;
 
@@ -45,10 +48,11 @@ public class WorkTimeDialogController {
 	 */
 	public void setDialogStage(Stage dialogStage){
 		this.dialogStage = dialogStage;
+		setKeyBoardEvent();
 	}
 	
 	/**
-	 * Sets the work company table.
+	 * Sets the work data and company table.
 	 * 
 	 * @param workData
 	 */
@@ -62,8 +66,19 @@ public class WorkTimeDialogController {
 				(observable, oldValue, newValue) -> showWorkTimeData(newValue));
 	}
 	
+	public void setKeyBoardEvent(){
+		dialogStage.addEventHandler((KeyEvent.KEY_PRESSED), (KeyEvent e) -> {
+			if(e.getCode() == KeyCode.ENTER){
+				handleEnter();
+			}
+			if(e.getCode() == KeyCode.DELETE){
+				handleDelete();
+			}
+		});
+	}
+	
 	/**
-	 * Sets the work time table to be adited in dialog.
+	 * Sets the work time table to be edited in dialog.
 	 * 
 	 * @param work
 	 */
@@ -94,8 +109,20 @@ public class WorkTimeDialogController {
 				tempWorkTime.setStartMinute(Integer.parseInt(startMinuteField.getText()));
 				tempWorkTime.setEndHour(Integer.parseInt(endHourField.getText()));
 				tempWorkTime.setEndMinute(Integer.parseInt(endMinuteField.getText()));
-			    selectedWork.getWorkTimeData().add(tempWorkTime);
-			    showWorkTimeData(selectedWork);
+				if(SalaryCalculator.calculateOneTime(tempWorkTime) >= 0){
+					SalaryCalculator calculator = new SalaryCalculator();
+					selectedWork.setWorkSalary((int)(calculator.calculate(selectedWork)));
+			        selectedWork.getWorkTimeData().add(tempWorkTime);
+			        showWorkTimeData(selectedWork);
+				}else{
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.initOwner(dialogStage);
+					alert.setTitle("警告");
+					alert.setHeaderText("輸入錯誤的時間");
+					alert.setContentText("結束時間必須大於起始時間");
+					
+					alert.showAndWait();
+				}
 			}
 		}else{
 			//Nothing selected.
@@ -104,6 +131,22 @@ public class WorkTimeDialogController {
 			alert.setTitle("警告");
 			alert.setHeaderText("沒有選擇任何工作");
 			alert.setContentText("請在左方表格中選擇工作");
+			
+			alert.showAndWait();
+		}
+	}
+	
+	@FXML
+	public void handleDelete(){
+		int selectedIndex = workTimeTable.getSelectionModel().getSelectedIndex();
+		if(selectedIndex  >= 0){
+			workTimeTable.getItems().remove(selectedIndex);
+		}else{
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(dialogStage);
+			alert.setTitle("警告");
+			alert.setHeaderText("未選擇時間");
+			alert.setContentText("請在下方的時間表選擇一組時間");
 			
 			alert.showAndWait();
 		}

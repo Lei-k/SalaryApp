@@ -60,8 +60,8 @@
                                     </GridPane>
                                     <VBox maxWidth="65.0" prefHeight="63.0" prefWidth="65.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#handleEnter" prefHeight="32.0" prefWidth="67.0" text="Enter" />
-                                          <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" text="Clear" />
+                                          <Button mnemonicParsing="false" onAction="#handleEnter" prefHeight="32.0" prefWidth="67.0" text="確定" />
+                                          <Button mnemonicParsing="false" onAction="#handleDelete" prefHeight="32.0" prefWidth="67.0" text="刪除" />
                                        </children>
                                     </VBox>
                                  </items>

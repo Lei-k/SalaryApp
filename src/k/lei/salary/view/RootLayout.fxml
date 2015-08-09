@@ -11,16 +11,17 @@
         <menus>
           <Menu mnemonicParsing="false" text="檔案">
             <items>
-              <MenuItem mnemonicParsing="false" text="新增" />
-                  <MenuItem mnemonicParsing="false" text="開啟..." />
-                  <MenuItem mnemonicParsing="false" text="儲存" />
-                  <MenuItem mnemonicParsing="false" text="另存新檔" />
+              <MenuItem mnemonicParsing="false" onAction="#handleNew" text="新增" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpen" text="開啟..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSave" text="儲存" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="另存新檔" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExit" text="離開" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="計算">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleInidividualCalculateDialog" text="單項計算" />
-                  <MenuItem mnemonicParsing="false" text="總項計算" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAllCalculateDialog" text="總項計算" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="圖表">
@@ -37,7 +38,8 @@
             </Menu>
           <Menu mnemonicParsing="false" text="關於...">
             <items>
-              <MenuItem mnemonicParsing="false" text="作者" />
+              <MenuItem mnemonicParsing="false" onAction="#handleAboutAuthor" text="作者" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="薪水計算機" />
             </items>
           </Menu>
         </menus>
