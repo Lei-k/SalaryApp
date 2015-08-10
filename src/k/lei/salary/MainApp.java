@@ -2,6 +2,7 @@ package k.lei.salary;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
@@ -11,14 +12,19 @@ import javax.xml.bind.Unmarshaller;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import k.lei.salary.model.Work;
 import k.lei.salary.model.WorkListWrapper;
 import k.lei.salary.view.AboutAuthorController;
@@ -45,6 +51,14 @@ public class MainApp extends Application{
 	public void start(Stage primaryStage){
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("SalaryApp");
+		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+			@Override
+			public void handle(WindowEvent e){
+				onCloseRequest();
+			}
+		});
+		this.primaryStage.getIcons().add(new Image("file:resources/images/Salary_App.png"));
+		
 		
 		initRootLayout();
 		
@@ -54,7 +68,7 @@ public class MainApp extends Application{
 	/**
 	 * Initializes the root layout.
 	 */
-	public void initRootLayout(){
+	private void initRootLayout(){
 		try{
 			//Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
@@ -203,7 +217,7 @@ public class MainApp extends Application{
 			
 			//Create the dialog Stage.
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("單項薪資表");
+			dialogStage.setTitle("總項薪資表");
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(primaryStage);
 			Scene scene = new Scene(page);
@@ -278,12 +292,12 @@ public class MainApp extends Application{
 			prefs.put("filePath", file.getPath());
 			
 			//Update the stage title.
-			primaryStage.setTitle("AddressApp - " + file.getName());
+			primaryStage.setTitle("SalaryApp - " + file.getName());
 		}else{
 			prefs.remove("filePath");
 			
 			//Update the stage title.
-			primaryStage.setTitle("AddressApp");
+			primaryStage.setTitle("SalaryApp");
 		}
 	}
 	
@@ -346,6 +360,55 @@ public class MainApp extends Application{
 			
 			alert.showAndWait();
 		}
+	}
+	
+	private void onCloseRequest(){
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("關閉");
+		alert.setHeaderText("正在執行關閉");
+		alert.setContentText("是否要儲存目前工作?");
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK){
+			handleSave();
+		}else{
+			handleExit();
+		}
+	}
+	
+	
+	public void handleSave(){
+		File workFile = getWorkFilePath();
+		if(workFile != null){
+			saveWorkDataToFile(workFile);
+		}else{
+			handleSaveAs();
+		}
+	}
+	
+	
+	public void handleSaveAs(){
+		FileChooser fileChooser = new FileChooser();
+		
+		//Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+				"XML files (*.xml)", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+		
+		//Show save file dialog
+		File file = fileChooser.showSaveDialog(getPrimaryStage());
+		
+		if(file != null){
+			//Make sure it has the correct extension
+			if(!file.getPath().endsWith(".xml")){
+				file = new File(file.getPath() + ".xml");
+			}
+			saveWorkDataToFile(file);
+		}
+	}
+	
+	public void handleExit(){
+		System.exit(0);
 	}
 	
 	/**

@@ -80,33 +80,12 @@ public class RootLayoutController {
 	
 	@FXML
 	private void handleSave(){
-		File workFile = mainApp.getWorkFilePath();
-		if(workFile != null){
-			mainApp.saveWorkDataToFile(workFile);
-		}else{
-			handleSaveAs();
-		}
+		mainApp.handleSave();
 	}
 	
 	@FXML
 	private void handleSaveAs(){
-		FileChooser fileChooser = new FileChooser();
-		
-		//Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"XML files (*.xml)", "*.xml");
-		fileChooser.getExtensionFilters().add(extFilter);
-		
-		//Show save file dialog
-		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
-		
-		if(file != null){
-			//Make sure it has the correct extension
-			if(!file.getPath().endsWith(".xml")){
-				file = new File(file.getPath() + ".xml");
-			}
-			mainApp.saveWorkDataToFile(file);
-		}
+		mainApp.handleSaveAs();
 	}
 	
 	@FXML
@@ -123,7 +102,8 @@ public class RootLayoutController {
 	/**
 	 * Closes the application.
 	 */
-	@FXML private void handleExit(){
-		System.exit(0);
+	@FXML
+	private void handleExit(){
+		mainApp.handleExit();
 	}
 }

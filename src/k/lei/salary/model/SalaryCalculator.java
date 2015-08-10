@@ -17,6 +17,7 @@ public class SalaryCalculator {
 	}
 	
 	public double calculate(Work work){
+		salary = 0;
 		for(int i = 0 ; i < work.getWorkTimeData().size() ; i++){
 			salary += work.getWagePerHour()*calculateOneTime(work.getWorkTimeData().get(i));
 		}

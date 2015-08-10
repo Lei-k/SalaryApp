@@ -126,13 +126,7 @@ public class WorkTimeDialogController {
 			}
 		}else{
 			//Nothing selected.
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(dialogStage);
-			alert.setTitle("警告");
-			alert.setHeaderText("沒有選擇任何工作");
-			alert.setContentText("請在左方表格中選擇工作");
-			
-			alert.showAndWait();
+			warningDialog("沒有選擇工作", "請在左方工作表選擇一組工作");
 		}
 	}
 	
@@ -142,13 +136,7 @@ public class WorkTimeDialogController {
 		if(selectedIndex  >= 0){
 			workTimeTable.getItems().remove(selectedIndex);
 		}else{
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(dialogStage);
-			alert.setTitle("警告");
-			alert.setHeaderText("未選擇時間");
-			alert.setContentText("請在下方的時間表選擇一組時間");
-			
-			alert.showAndWait();
+			warningDialog("未選擇時間", "請在下方時間表選擇一組時間");
 		}
 	}
 	
@@ -212,14 +200,19 @@ public class WorkTimeDialogController {
 		if(errorMessage.length() == 0){
 			return true;
 		}else{
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(dialogStage);
-			alert.setTitle("警告");
-			alert.setHeaderText("輸入錯誤的時間");
-			alert.setContentText(errorMessage);
+			warningDialog("輸入錯誤", errorMessage);
 			
-			alert.showAndWait();
 			return false;
 		}
+	}
+	
+	private void warningDialog(String header, String content){
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("警告");
+		alert.initOwner(dialogStage);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		
+		alert.showAndWait();
 	}
 }
