@@ -1,5 +1,6 @@
 package k.lei.salary.view;
 
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,6 +21,7 @@ public class WorkTimeDialogController {
 	@FXML private TableColumn<Work, String> companyNameColumn;
 	
 	@FXML private TableView<WorkTime> workTimeTable;
+	@FXML private TableColumn<WorkTime, String> workDayColumn;
 	@FXML private TableColumn<WorkTime, Integer> startHourColumn;
 	@FXML private TableColumn<WorkTime, String> startSemicolonColumn;
 	@FXML private TableColumn<WorkTime, Integer> startMinuteColumn;
@@ -28,6 +30,7 @@ public class WorkTimeDialogController {
 	@FXML private TableColumn<WorkTime, String> endSemicolonColumn;
 	@FXML private TableColumn<WorkTime, Integer> endMinuteColumn;
 	
+	@FXML private TextField workDayField;
 	@FXML private TextField startHourField;
 	@FXML private TextField startMinuteField;
 	@FXML private TextField endHourField;
@@ -36,7 +39,7 @@ public class WorkTimeDialogController {
 	private Stage dialogStage;
 	
 	/**
-	 * Initializes the controller class. This method is automtically called
+	 * Initializes the controller class. This method is automatically called
 	 * after fxml file has been loaded.
 	 */
 	@FXML
@@ -85,6 +88,7 @@ public class WorkTimeDialogController {
 	public void showWorkTimeData(Work work){
 		workTimeTable.setItems(work.getWorkTimeData());
 		//Sets work time table with seven columns.
+		workDayColumn.setCellValueFactory(cellData -> cellData.getValue().getWorkDayProperty());
 		startHourColumn.setCellValueFactory(cellData -> cellData.getValue().getStartHourProperty().asObject());
 		startSemicolonColumn.setCellValueFactory(cellData -> cellData.getValue().getStartSemicolonProperty());
 		startMinuteColumn.setCellValueFactory(cellData -> cellData.getValue().getStartMinuteProperty().asObject());
@@ -105,6 +109,7 @@ public class WorkTimeDialogController {
 		if(selectedWork != null){
 			if(isInputValid()){
 				WorkTime tempWorkTime = new WorkTime();
+				tempWorkTime.setWorkDay(workDayField.getText());
 				tempWorkTime.setStartHour(Integer.parseInt(startHourField.getText()));
 				tempWorkTime.setStartMinute(Integer.parseInt(startMinuteField.getText()));
 				tempWorkTime.setEndHour(Integer.parseInt(endHourField.getText()));

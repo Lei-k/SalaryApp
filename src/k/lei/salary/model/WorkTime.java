@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 
 public class WorkTime {
 	
+	private StringProperty workDay;
 	private IntegerProperty startHour;
 	private StringProperty startSemicolon;
 	private IntegerProperty startMinute;
@@ -17,13 +18,26 @@ public class WorkTime {
 	
 	public WorkTime(){
 		//Initializes work time property
-		this.startHour = new SimpleIntegerProperty(0);
+		workDay = new SimpleStringProperty("0");
+		startHour = new SimpleIntegerProperty(0);
 		startSemicolon = new SimpleStringProperty(":");
-		this.startMinute = new SimpleIntegerProperty(0);
+		startMinute = new SimpleIntegerProperty(0);
 		linkSymbol = new SimpleStringProperty("~");
-		this.endHour = new SimpleIntegerProperty(0);
+		endHour = new SimpleIntegerProperty(0);
 		endSemicolon = new SimpleStringProperty(":");
-		this.endMinute = new SimpleIntegerProperty(0);
+		endMinute = new SimpleIntegerProperty(0);
+	}
+	
+	public String getWorkDay(){
+		return workDay.get();
+	}
+	
+	public void setWorkDay(String workDay){
+		this.workDay.set(workDay);
+	}
+	
+	public StringProperty getWorkDayProperty(){
+		return workDay;
 	}
 	
 	public int getStartHour(){

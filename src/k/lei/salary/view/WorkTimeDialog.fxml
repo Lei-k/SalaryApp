@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -10,16 +11,16 @@
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="300.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <AnchorPane maxWidth="150.0" prefHeight="200.0" prefWidth="150.0">
+            <AnchorPane maxWidth="120.0" prefHeight="250.0" prefWidth="119.0">
                <children>
-                  <TableView fx:id="workTable" prefHeight="298.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="workTable" prefHeight="298.0" prefWidth="120.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="companyNameColumn" prefWidth="150.0" text="公司" />
+                      <TableColumn fx:id="companyNameColumn" prefWidth="120.0" text="公司" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane prefHeight="298.0" prefWidth="363.0">
                <children>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="298.0" prefWidth="340.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
@@ -29,7 +30,9 @@
                                  <items>
                                     <GridPane prefHeight="60.0" prefWidth="250.0">
                                       <columnConstraints>
-                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="58.0" minWidth="10.0" prefWidth="50.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="73.0" minWidth="10.0" prefWidth="54.0" />
+                                          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="58.0" minWidth="8.0" prefWidth="8.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="66.0" minWidth="10.0" prefWidth="46.0" />
                                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="41.0" minWidth="0.0" prefWidth="10.0" />
                                           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="104.0" minWidth="10.0" prefWidth="48.0" />
                                           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="34.0" />
@@ -42,20 +45,22 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Label text="時" />
-                                          <Label text="分" GridPane.columnIndex="2" />
-                                          <Label text=":" GridPane.columnIndex="1" />
-                                          <Label text="~" GridPane.columnIndex="3" />
-                                          <Label text="時" GridPane.columnIndex="4" />
-                                          <Label text=":" GridPane.columnIndex="5" />
-                                          <Label text="分" GridPane.columnIndex="6" />
-                                          <TextField fx:id="startHourField" GridPane.rowIndex="1" />
-                                          <TextField fx:id="startMinuteField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                          <TextField fx:id="endHourField" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                          <TextField fx:id="endMinuteField" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-                                          <Label text=":" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Label text="~" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                          <Label text=":" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                          <Label text="時" GridPane.columnIndex="2" />
+                                          <Label text="分" GridPane.columnIndex="4" />
+                                          <Label text=":" GridPane.columnIndex="3" />
+                                          <Label text="~" GridPane.columnIndex="5" />
+                                          <Label text="時" GridPane.columnIndex="6" />
+                                          <Label text=":" GridPane.columnIndex="7" />
+                                          <Label text="分" GridPane.columnIndex="8" />
+                                          <TextField fx:id="startHourField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                          <TextField fx:id="startMinuteField" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                          <TextField fx:id="endHourField" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                                          <TextField fx:id="endMinuteField" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                                          <Label text=":" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Label text="~" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                                          <Label text=":" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                                          <TextField fx:id="workDayField" GridPane.rowIndex="1" />
+                                          <Label text="日期" />
                                        </children>
                                     </GridPane>
                                     <VBox maxWidth="65.0" prefHeight="63.0" prefWidth="65.0">
@@ -72,13 +77,14 @@
                            <children>
                               <TableView fx:id="workTimeTable" prefHeight="223.0" prefWidth="338.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="startHourColumn" prefWidth="65.0" text="時" />
-                                  <TableColumn fx:id="startSemicolonColumn" prefWidth="19.0" text=":" />
-                                    <TableColumn fx:id="startMinuteColumn" prefWidth="65.0" text="分" />
-                                    <TableColumn fx:id="linkSymbolColumn" prefWidth="40.0" text="~" />
-                                    <TableColumn fx:id="endHourColumn" prefWidth="65.0" text="時" />
-                                    <TableColumn fx:id="endSemicolonColumn" prefWidth="19.0" text=":" />
-                                    <TableColumn fx:id="endMinuteColumn" prefWidth="65.0" text="分" />
+                                    <TableColumn fx:id="workDayColumn" prefWidth="60.0" text="日期" />
+                                  <TableColumn fx:id="startHourColumn" prefWidth="60.0" text="時" />
+                                  <TableColumn fx:id="startSemicolonColumn" prefWidth="15.0" text=":" />
+                                    <TableColumn fx:id="startMinuteColumn" prefWidth="60.0" text="分" />
+                                    <TableColumn fx:id="linkSymbolColumn" prefWidth="35.0" text="~" />
+                                    <TableColumn fx:id="endHourColumn" prefWidth="60.0" text="時" />
+                                    <TableColumn fx:id="endSemicolonColumn" prefWidth="15.0" text=":" />
+                                    <TableColumn fx:id="endMinuteColumn" prefWidth="60.0" text="分" />
                                 </columns>
                               </TableView>
                            </children>
